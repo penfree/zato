@@ -80,6 +80,9 @@ class OutconnMongoDBWrapper(Wrapper):
                 'authMechanism': self.config.auth_mechanism,
             })
 
+            if self.config.username:
+                client_config.username = self.config.username
+                client_config.password = self.config.secret or self.config.get('password') or '{}.{}'.format(self.__class__.__name__, uuid4().hex),
             client_config.password = self.server.decrypt(client_config.password) # type: ignore
 
             if self.config.document_class:
